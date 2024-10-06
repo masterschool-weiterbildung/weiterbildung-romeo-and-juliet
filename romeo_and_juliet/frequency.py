@@ -1,7 +1,7 @@
 from romeo_and_juliet import PLAY
 from collections import Counter
 
-TOP_FREQUENT_WORDS = 50
+TOP_FREQUENT_WORDS = 200
 
 """
 Constants:
@@ -42,7 +42,11 @@ def get_words(text: str) -> list[str]:
             if line.strip()
             and word != ''
             and sanitize_word != '.'
-            and sanitize_word != '']
+            and sanitize_word != ''
+            and sanitize_word != '[_Exeunt'
+            and sanitize_word != '[_Exit'
+            and sanitize_word != '_]'
+            ]
 
 def words_frequency(words) -> dict:
     """
