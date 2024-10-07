@@ -1,7 +1,8 @@
 from romeo_and_juliet import PLAY
 from collections import Counter
+import re
 
-TOP_FREQUENT_WORDS = 200
+TOP_FREQUENT_WORDS = 50
 
 """
 Constants:
@@ -19,34 +20,24 @@ Functions:
 
 def get_words(text: str) -> list[str]:
     """
-    Processes the input text and returns a list of sanitized words.
-
-    This function do the following:
-        1. Splits the input text by lines, then by spaces to extract words.
-        2. Splits each word by periods (".") to handle any trailing
-           punctuation.
-        e. Excludes empty strings, lines with only whitespace,
-           and period characters.
+    Extracts and returns a list of words from the given text after cleaning it.
 
     Parameter:
-        text (str): The input text to be processed.
+        text (str): The input string from which to extract words.
 
     Returns:
-        list[str]: A list of sanitized words with punctuation
-        and empty entries removed.
+        list[str]: A list of words extracted from the input string.
+                    Each word is represented as a lowercase string.
+    Explanation:
+        - Converts the input string to lowercase and removes all
+        characters that are not letters, digits, or spaces
+
+        - Extracts and returns a list of words from the cleaned text,
+        where a word is defined as a sequence of alphanumeric characters
+        separated by word boundaries.
     """
-    return [sanitize_word
-            for line in text.split('\n')
-            for word in line.split(" ")
-            for sanitize_word in word.split(".")
-            if line.strip()
-            and word != ''
-            and sanitize_word != '.'
-            and sanitize_word != ''
-            and sanitize_word != '[_Exeunt'
-            and sanitize_word != '[_Exit'
-            and sanitize_word != '_]'
-            ]
+    return re.findall(r'\b\w+\b', re.sub(r'[^A-Za-z0-9 ]+', '', text.lower().strip()))
+
 
 def words_frequency(words) -> dict:
     """
@@ -98,6 +89,7 @@ def main() -> None:
 
     Returns:
         None
+
     """
 
     print(f"Top 50 most frequent words:")
